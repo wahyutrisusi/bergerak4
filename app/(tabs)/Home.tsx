@@ -1,68 +1,97 @@
 import { useRouter } from "expo-router";
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
+import {
+    Image,
+    Text,
+    ScrollView,
+    View,
+    StyleSheet,
+    FlatList,
+    TextInput,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
+
+type DataItem = {
+    imageuri: string;
+};
 
 export default function Home() {
-    const router = useRouter();
-    return (
-        <ImageBackground
-            source={{ uri: "https://superlive.id/storage/articles/a552918b-be94-42a9-a2ba-c3fa12705f8f.png" }}
-            style={styles.background}
-        >
-            <View style={styles.container}>
-                <Text style={styles.title}>Open Trip ke Gunung</Text>
-                <Text style={styles.description}>
-                    Ayo bergabung dalam petualangan mendaki gunung yang menakjubkan! Nikmati keindahan alam, udara segar, 
-                    dan pengalaman tak terlupakan bersama teman-teman baru.
-                </Text>
-                <TouchableOpacity 
-                    style={styles.button}
-                    onPress={() => router.push("/list")}
-                >
-                    <Text style={styles.buttonText}>Go to List</Text>
-                </TouchableOpacity>
+    const data: DataItem[] = Array(10).fill({
+        imageuri: "https://imigrasilampung.co.id/wp-content/uploads/2022/10/Kumpulan-Background-Kualitas-HD.png",
+    });
+
+    const renderItem = ({ item }: { item: DataItem }) => {
+        return (
+            <View style={styles.card}>
+                <Image source={{ uri: item.imageuri }} style={styles.image} />
+                <Text style={styles.name}>Merbabu</Text>
+                <Text style={styles.price}>Rp.500.000</Text>
             </View>
-        </ImageBackground>
+        );
+    };
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.searchContainer}>
+                    <TextInput placeholder="Search" style={styles.searchInput} />
+                    <Ionicons name="search" size={20} color="black" />
+                  </View>
+
+            <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(_, index) => index.toString()}
+                numColumns={2}
+                contentContainerStyle={styles.listContainer}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Efek transparansi untuk teks
-        borderRadius: 10,
-        padding: 20,
+        padding: 10,
+        backgroundColor: "#fff",
     },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#FFFFFF',
-        textShadowColor: 'rgba(0, 0, 0, 0.5)',
-        textShadowOffset: { width: 2, height: 2 },
-        textShadowRadius: 10,
+    searchContainer: {
+        width: "100%",
         marginBottom: 10,
     },
-    description: {
-        fontSize: 18,
-        color: '#FFFFFF',
-        textAlign: 'center',
-        marginBottom: 20,
-        paddingHorizontal: 20,
+    searchInput: {
+        height: 40,
+        borderColor: "#ccc",
+        borderWidth: 1,
+        borderRadius: 20,
+        paddingHorizontal: 15,
+        backgroundColor: "#fff",
     },
-    button: {
-        backgroundColor: '#4CAF50', // Tombol berwarna hijau
+    listContainer: {
+        paddingHorizontal: 5,
+    },
+    card: {
+        backgroundColor: "#fff",
+        borderRadius: 10,
         padding: 10,
-        borderRadius: 5,
+        margin: 5,
+        alignItems: "center",
+        width: "47%",
+        borderWidth: 1,
+        borderColor: "#ddd",
     },
-    buttonText: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        textAlign: 'center',
-    }
+    image: {
+        width: 100,
+        height: 100,
+        resizeMode: "contain",
+        marginBottom: 10,
+    },
+    name: {
+        fontWeight: "bold",
+        fontSize: 16,
+        marginBottom: 5,
+    },
+    price: {
+        color: "blue",
+        fontSize: 14,
+    },
 });

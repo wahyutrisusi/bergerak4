@@ -2,27 +2,21 @@ import React from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 
-export default function Login() {
+export default function Register() {
     const router = useRouter();
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
+            <Text style={styles.title}>Register</Text>
             <TextInput placeholder="Username" style={styles.input} />
             <TextInput placeholder="Password" secureTextEntry style={styles.input} />
+            <TextInput placeholder="Confirm Password" secureTextEntry style={styles.input} />
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => router.push("/Home")} 
             >
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
-
-            <View style={styles.registerContainer}>
-                <Text style={styles.registerText}>Belum punya akun? </Text>
-                <TouchableOpacity onPress={() => router.push("/Register")}>
-                    <Text style={styles.registerLink}>Daftar</Text>
-                </TouchableOpacity>
-            </View>
         </View>
     );
 }
